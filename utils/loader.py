@@ -11,6 +11,7 @@ def load_data():
 
     df = pd.read_csv(
     DATA_PATH,
+    nrows=500000,
     low_memory=False
 )
 

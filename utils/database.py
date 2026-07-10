@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import pandas as pd
 
@@ -5,6 +6,11 @@ DB_PATH = "database/experiments.db"
 
 
 def create_database(df):
+
+    os.makedirs("database", exist_ok=True)
+
+    if os.path.exists(DB_PATH):
+        return
 
     conn = sqlite3.connect(DB_PATH)
 
@@ -16,7 +22,6 @@ def create_database(df):
     )
 
     conn.commit()
-
     conn.close()
 
 
