@@ -7,13 +7,10 @@ DATA_PATH = "data/ecommerce_conversion_ab_test_data.csv"
 @st.cache_data
 def load_data():
 
-    df = pd.read_csv(DATA_PATH)
-
     df = pd.read_csv(
-    DATA_PATH,
-    nrows=500000,
-    low_memory=False
-)
+        DATA_PATH,
+        low_memory=False
+    )
 
     df.columns = df.columns.str.strip().str.lower()
 
@@ -22,6 +19,22 @@ def load_data():
             "tvc": "variant"
         },
         inplace=True
+    )
+
+    # Balanced sample for deployment
+    control = df[df["variant"] == "C"].sample(
+        250000,
+        random_state=42
+    )
+
+    treatment = df[df["variant"] == "V1"].sample(
+        250000,
+        random_state=42
+    )
+
+    df = pd.concat(
+        [control, treatment],
+        ignore_index=True
     )
 
     df["date"] = pd.to_datetime(df["date"])

@@ -20,6 +20,9 @@ st.markdown(
 
 df = load_data()
 
+st.write(df["variant"].value_counts())
+st.write(df["variant"].unique())
+
 # -------------------------------------------------
 # Sidebar Filters
 # -------------------------------------------------
